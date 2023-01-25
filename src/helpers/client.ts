@@ -1,12 +1,12 @@
 import { AuthTokenResponse } from "./types";
-
+const apiIpAndPort = "localhost:8080";
 const decodeResponse = (jason: {body: string}) => {
     const { body } = jason;
    return JSON.parse(atob(body));
 }
 
 export const getToken = async (): Promise<AuthTokenResponse> => {
-  const response = await fetch(`http://localhost:8080/v1/new`, {
+  const response = await fetch(`http://${apiIpAndPort}/v1/new`, {
     method: "POST",
   });
   if (!response.ok) {
@@ -19,7 +19,7 @@ export const getEffectsList = async (): Promise<string[]> => {
   const auth_token = localStorage.getItem("auth_token");
   if (!auth_token) throw new Error("No auth token found");
   const response = await fetch(
-    `http://localhost:8080/v1/${auth_token}/effects/effectsList`
+    `http://${apiIpAndPort}/v1/${auth_token}/effects/effectsList`
   );
   if (!response.ok) {
     throw new Error(`${response.status} ${await response.json()}`);
@@ -41,7 +41,7 @@ export const putSelectEffect = async (effect: string) => {
         body: raw,
     };
 
-    const response = await fetch(`http://localhost:8080/v1/${authToken}/effects`, requestOptions);
+    const response = await fetch(`http://${apiIpAndPort}/v1/${authToken}/effects`, requestOptions);
     if(!response.ok) {
         throw new Error(`${response.status} ${await response.json()}`);
     }
